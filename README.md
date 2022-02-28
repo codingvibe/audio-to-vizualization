@@ -10,6 +10,20 @@ Install via pip:
 
 `pip install -r requirements.txt`
 
-## Future Works
-- Integration with YouTube
-- More visualization options
+## Run the script
+
+`python audio_to_visualization.py <arguments>`
+
+### Command line arguments
+
+| Argument | Description | Required | Default |
+|----------|-------------|----------|---------|
+| --audio | path to audio file to visualize | true | N/A |
+| --background | path to image to use for background | true | N/A |
+| --output | path and name of output file. Must end in .mp4 | true | N/a |
+| --vis-background-to-vid-ratio | ratio of visualization background height to input image height (0.0-1.0) | false | 0.2 |
+| --vis-waves-to-vid-ratio | ratio of visualization waves height to input image height (0.0-1.0) | false | 0.15 |
+| --vis-color | color for visualization waveforms. can be used multiple times | false | "0xffffff" |
+| --vis-color-opacity | opacity of vis colors (0.0-1.0) | false | 0.9 |
+| --background-color | background color for visualization waveforms | false | "0x000000" |
+| --background-color-opacity | opacity for visualization background color (0.0-1.0) | false | 0.5 |
