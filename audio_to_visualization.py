@@ -18,7 +18,7 @@ def restricted_float(x):
   return x
 
 
-def main():
+def call_video_creator_with_args():
   parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, add_help=True)
   parser.add_argument("--audio",
                       help="input audio filename", required=True)
@@ -39,27 +39,32 @@ def main():
   parser.add_argument("--background-color-opacity", type=restricted_float, default=0.5,
                       help="opacity for visualization background color (0.0-1.0)", required=False)
 
-  args, _ = parser.parse_known_args()
+  args, _ = parser.parse_known_args(args.audio, args.background, args.output, args.vis_background_to_vid_ratio,
+                                    args.vis_waves_to_vid_ratio, args.vis_color, args.vis_color_opacity,
+                                    args.background_color, args.background_color_opacity)
 
+def create_vizualization(audio, background, output, vis_background_to_vid_ratio,
+                         vis_waves_to_vid_ratio, vis_color, vis_color_opacity,
+                         background_color, background_color_opacity):
   # Get metadata for visualization
-  duration = get_audio_duration(args.audio)
-  (bg_height, bg_width) = get_image_resolution(args.background)
-  waves_height = floor(bg_height * args.vis_waves_to_vid_ratio)
-  waves_background_height = floor(bg_height * args.vis_background_to_vid_ratio)
+  duration = get_audio_duration(audio)
+  (bg_height, bg_width) = get_image_resolution(background)
+  waves_height = floor(bg_height * vis_waves_to_vid_ratio)
+  waves_background_height = floor(bg_height * vis_background_to_vid_ratio)
 
   # Compile the waves and a background color
-  stream = ffmpeg.input(args.audio)
-  vis_colors = "|".join(args.vis_color)
-  vid_stream = get_audio_waveforms(stream, bg_width, waves_height, vis_colors, args.vis_color_opacity)
-  background_stream = generate_background_color(bg_width, waves_background_height, args.background_color,
-                                                args.background_color_opacity, duration)
+  stream = ffmpeg.input(audio)
+  vis_colors = "|".join(vis_color)
+  vid_stream = get_audio_waveforms(stream, bg_width, waves_height, vis_colors, vis_color_opacity)
+  background_stream = generate_background_color(bg_width, waves_background_height, background_color,
+                                                background_color_opacity, duration)
   waves_center_offset = floor((waves_background_height - waves_height)/2)
   viz = ffmpeg.filter([background_stream, vid_stream], 'overlay', 0, waves_center_offset)
   waves_background_center_offset = floor((bg_height - waves_background_height)/2)
 
   # Overlay the waves stream on top of our static image
-  vid_stream = ffmpeg.filter([ffmpeg.input(args.background), viz], 'overlay', 0, waves_background_center_offset)
-  ffmpeg.output(stream.audio, vid_stream, args.output).run()
+  vid_stream = ffmpeg.filter([ffmpeg.input(background), viz], 'overlay', 0, waves_background_center_offset)
+  ffmpeg.output(stream.audio, vid_stream, output).run()
 
 
 # Generate a static color background video stream
@@ -101,7 +106,7 @@ def get_metadata(filename):
 
 if __name__ == "__main__":
   try:
-    main()
+    call_video_creator_with_args()
   except KeyboardInterrupt:
     # The user asked the program to exit
     sys.exit(1)
