@@ -12,7 +12,7 @@ Install via pip:
 
 ## Run the script
 
-`python audio_to_visualization.py <arguments>`
+`python audio_to_visualization/audio_to_visualization.py <arguments>`
 
 ### Command line arguments
 

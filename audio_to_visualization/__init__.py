@@ -1,0 +1,3 @@
+from audio_to_visualization.audio_to_visualization import create_visualization
+
+__all__ = "create_visualization"

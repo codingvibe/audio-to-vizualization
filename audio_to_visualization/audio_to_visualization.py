@@ -40,11 +40,11 @@ def call_video_creator_with_args():
                       help="opacity for visualization background color (0.0-1.0)", required=False)
 
   args, _ = parser.parse_known_args()
-  create_vizualization(args.audio, args.background, args.output, args.vis_background_to_vid_ratio,
+  create_visualization(args.audio, args.background, args.output, args.vis_background_to_vid_ratio,
                        args.vis_waves_to_vid_ratio, args.vis_color, args.vis_color_opacity,
                        args.background_color, args.background_color_opacity)
 
-def create_vizualization(audio, background, output, vis_background_to_vid_ratio,
+def create_visualization(audio, background, output, vis_background_to_vid_ratio,
                          vis_waves_to_vid_ratio, vis_color, vis_color_opacity,
                          background_color, background_color_opacity):
   # Get metadata for visualization

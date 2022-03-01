@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+import setuptools
 
-from distutils.core import setup
-
-setup(name='audio_to_visualization',
+setuptools.setup(name='audio_to_visualization',
+      package=setuptools.find_packages(),
+      install_requires=['ffmpeg_python'],
       version='1.0',
       description='Audio to visualization script',
       author='CodingVibe',
