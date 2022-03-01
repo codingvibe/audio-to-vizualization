@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(name='audio_to_visualization',
-      package=setuptools.find_packages(),
+      packages=setuptools.find_packages(),
       install_requires=['ffmpeg_python'],
       version='1.0',
       description='Audio to visualization script',
